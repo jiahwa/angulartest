@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index1:cdn import angular 1.4.x</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-controller="AppCtrl">
+    <header><h1>Test content</h1></header>
+    <p>input your number: <input name="rate" ng-model="params.rate" /></p>
+    <p>number filter: {{params.rate|number:3}}</p>
+    <p>number filter with unit: {{params.rate|number:3}} %</p>
+</body>
+<script type="text/javascript">
+    const app = angular.module("app",[]);
+    app.run()
+    app.controller('AppCtrl',['$scope',function($scope) {
+        $scope.startup = () => {
+            $scope.params = {
+                rate: 0
+            }
+        }
+    }])
+</script>
+</html>
