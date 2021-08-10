@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index2: test upload fix event bind</title>
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body ng-controller="AppCtrl">
+    <header><h1>Test content</h1></header>
+    <div class="form-group">
+        <label>证件正面<span class="red">*</span></label>
+        <fileupload ng-model="params.fro"
+            name="frontPicUpload"
+            options='{"matches":"jpg;jpeg;png","successCall":"uploadSuc0","failCall":"uploadFail0"}'
+            path="getPath_0"></fileupload>
+    </div>
+    <div class="form-group">
+        <label>证件反面<span class="red">*</span></label>
+        <fileupload ng-model="params.back"
+            name="backPicUpload"
+            options='{"matches":"jpg;jpeg;png","successCall":"uploadSuc1","failCall":"uploadFail1"}'
+            path="getPath_1"></fileupload>
+    </div>
+</body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.js"></script>
+<script>
+    const app = angular.module("app",[]);
+    app.run()
+</script>
+<script type="text/javascript" src="./dist/updownfile.js"></script>
+<script type="text/javascript">
+    app.controller('AppCtrl',['$scope',function($scope) {
+        $scope.startup = () => {
+            $scope.params = {
+                rate: 0
+            }
+        }
+    }])
+</script>
+</html>
