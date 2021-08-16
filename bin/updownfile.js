@@ -8,23 +8,22 @@
 					template: '' +
 						'<div class="file-box">' +
 						'   <input type="text" name="textfield" class="textfield" /> ' +
-						'   <input type="button" class="btn file" value="浏览..." />' +
+						'   <input type="button" class="btn file" value="scan..." />' +
 						'   <input type="file" class="upfile" name="file"  size="28" v-model="file' + (new Date()).valueOf() + '" />' +
-						'   <input type="button" name="submit" class="btn" value="上传" ng-click="uploadFile()" />' +
+						'   <input type="button" name="submit" class="btn" value="upload" ng-click="uploadFile()" />' +
 						'</div> ',
 					replace: true,
 					scope: {},
 
 					link: function (scope, element, attr) {
 						/**
-						 * ps:新增属性options的可配置项，matches
-						 * eg: matches=["txt","xls","xlsx","html","pdf"]
+						 * matches can config，eg: matches=["txt","xls","xlsx","html","pdf"]
 						 */
 						var textinputs, textfield, btn_bower, upfile, btn_submit, options, callback, path = "";
 						var fn = attr.path;
 						textinputs = element[0].getElementsByTagName('input');
 						textfield = $(textinputs[0]);
-						upfile = $(textinputs[2]); // model
+						upfile = $(textinputs[2]); 
 						options = $.extend({
 							successCall: angular.noop,
 							failCall: null
@@ -53,7 +52,8 @@
 							var name = (upfile.val() + "").replace(/.*\\/, "");
 							textfield.val(name);
 							setter(scope.$parent,name);
-							//alert("请点击上传");
+							alert("please click upload button");
+							
 						});
 
 						function isMatch() {
@@ -73,9 +73,9 @@
 								"jpg":"image/jpg",
 								"js":"application/javascript",
 								"jasper":"application/octet-stream"};
-							var matches = options.matches && options.matches.split(";");//页面自定义配置的文件类型
-							var SUPERMAP_key = [],//简写格式
-								SUPERMAP_value = [],//完整格式
+							var matches = options.matches && options.matches.split(";");
+							var SUPERMAP_key = [],
+								SUPERMAP_value = [],
 								access = [];
 
 							for(var i in SUPERMAP){
@@ -85,7 +85,7 @@
 							matches = matches || SUPERMAP_key;
 							for (var i = 0; i < matches.length; i++) {
 								var item = matches[i];
-								SUPERMAP[item] && access.push(SUPERMAP[item]);//允许的文件类型
+								SUPERMAP[item] && access.push(SUPERMAP[item]);
 							}
 
 							if($.inArray(arguments[0], access)!=-1)
@@ -96,20 +96,20 @@
 						scope.uploadFile = function () {
 							var file = upfile[0].files[0];
 							if (angular.isUndefined(file)) {
-								//alert("请先添加文件");
+								alert("please add your file");
 								return false;
 							}
-							// jasper文件特殊处理
+							
 							var re = new RegExp("(.jasper)$");
 							if(re.test(file.name)){
                                 if(!isMatch("application/octet-stream")){
-									//alert("文件类型错误，请重新添加文件");
+									alert("file type error");
 									return false;
 								}
                             }else{
-	                            // 加判断
+	                            
 								if(!isMatch(file.type)){
-									//alert("文件类型错误，请重新添加文件");
+									alert("file type error");
 									return false;
 								}	
                             }
@@ -153,7 +153,7 @@
 
 							var ajaxSetting = {
 								method: 'POST',
-								// url: $rootScope.$TrsContext+$SystemConfig.uploadUrl,
+								url: 'xxx.uploadUrl.do',
 								data: data,
 								headers: {
 									'Content-Type': undefined
@@ -181,7 +181,7 @@
 			start: function (data, success, fail, config) {
 				var ajaxSetting = {
 					method: 'POST',
-					// url: $rootScope.$TrsContext+$SystemConfig.downloadUrl,
+					url: 'xxx.downloadUrl.do',
 					data: data,
 					responseType: 'arraybuffer'
 				};
@@ -202,16 +202,16 @@
 						}
 					} catch (ex) {
 						console.error(ex);
-						fail && fail("下载失败");
+						fail && fail("download err");
 						return false;
 					}
 					success && success(data);
 				}).error(function () {
-					fail && fail("下载失败");
+					fail && fail("download err");
 				});
 			},
 			downloadBytes: function(bytesArray,callback, fail) {
-				//直接以流文件格式下载内容
+				
 				try {
 						var blob = new Blob([bytesArray], {
 							type: "application/octet-stream;charset=UTF-8",
@@ -225,7 +225,7 @@
 						}
 					} catch (ex) {
 						console.error(ex);
-						fail && fail("下载失败");
+						fail && fail("download err");
 						return false;
 					}
 					callback && callback(bytesArray);
